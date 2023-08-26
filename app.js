@@ -51,7 +51,11 @@ const express = require("express"); // Changed "exp" to "express" for clarity
 const app = express();
 
 app.use(express.json()); // Used "express" instead of "exp" for better readability
-app.use(cors());
+app.use(cors(
+    {
+        origin: '*'
+    }
+));
 
 const PORT = process.env.PORT || 4000;
 let mclient = require("mongodb").MongoClient;
