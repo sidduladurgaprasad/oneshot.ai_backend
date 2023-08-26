@@ -39,6 +39,6 @@ app.post("/post-user",async(request,response)=>{
 })
 
 
-app.listen(4000,()=>{
+app.listen(PORT,()=>{
     console.log("Server listening on port 4000");
 })
