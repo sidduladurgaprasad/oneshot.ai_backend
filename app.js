@@ -1,10 +1,11 @@
 require("dotenv").config();
+const cors = require('cors');
 const exp=require("express");
 const app=exp();
 
 app.use(exp.json())
 const PORT = process.env.PORT || 4000
-
+app.use(cors());
 let mclient=require("mongodb").MongoClient;
 
 let DBurl=process.env.DBurl;
