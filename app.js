@@ -66,6 +66,8 @@ mclient.connect(DBurl)
   .then((client) => {
     let dbobj = client.db("oneshot");
     let userCollectionObj = dbobj.collection("users");
+    let bookingCollectionObj = dbobj.collection("bookings")
+    app.set("bookingCollectionObj",bookingCollectionObj);
     app.set("userCollectionObj", userCollectionObj);
     console.log("DB connection success");
   })
@@ -83,6 +85,7 @@ app.get("/get-user", async (request, response) => {
   }
 });
 
+
 app.post("/post-user", async (request, response) => {
   let obj = request.body;
   console.log(obj);
@@ -92,6 +95,28 @@ app.post("/post-user", async (request, response) => {
     response.send({ message: "User created successfully" });
   } catch (error) {
     response.status(500).send({ message: "Error creating user", error: error.message });
+  }
+});
+
+app.get("/get-booking", async (request, response) => {
+  let bookingCollectionObj = app.get("bookingCollectionObj");
+  try {
+    let bookings = await bookingCollectionObj.find().toArray();
+    response.send({ message: "All bookings", payload: bookings });
+  } catch (error) {
+    response.status(500).send({ message: "Error retrieving booking data", error: error.message });
+  }
+});
+
+app.post("/post-booking", async (request, response) => {
+  let obj = request.body;
+  console.log(obj);
+  let bookingCollectionObj = app.get("bookingCollectionObj");
+  try {
+    await bookingCollectionObj.insertOne(obj);
+    response.send({ message: "booking created successfully" });
+  } catch (error) {
+    response.status(500).send({ message: "Error booking slot", error: error.message });
   }
 });
 
