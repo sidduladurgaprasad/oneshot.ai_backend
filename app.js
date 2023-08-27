@@ -48,6 +48,7 @@
 require("dotenv").config();
 const cors = require('cors');
 const express = require("express"); // Changed "exp" to "express" for clarity
+const { ObjectId } = require("mongodb");
 const app = express();
 
 app.use(express.json()); // Used "express" instead of "exp" for better readability
@@ -119,6 +120,18 @@ app.post("/post-booking", async (request, response) => {
     response.status(500).send({ message: "Error booking slot", error: error.message });
   }
 });
+app.delete("/delete-booking/:id", async (request, response) => {
+  let bookingCollectionObj = app.get("bookingCollectionObj");
+  let id = request.params.id; // Use request.params.id to get the ID from the URL parameter
+  console.log(id);
+  try {
+    let bookings = await bookingCollectionObj.deleteOne({ "_id":id }); // Make sure to use ObjectId to convert the ID to MongoDB ObjectId
+    response.send({ message: "Booking deleted" });
+  } catch (error) {
+    response.status(500).send({ message: "Error deleting slot", error: error.message });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

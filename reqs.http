@@ -20,8 +20,12 @@ Content-Type: application/json
     "date":29,
     "slot":4
 }
-
 ###
 GET http://localhost:4000/get-booking
+
+###
+DELETE http://localhost:4000/delete-booking/64eb8db63864c88a1b0d3466
+
+
 
 
